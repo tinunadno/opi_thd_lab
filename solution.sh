@@ -1,5 +1,6 @@
 ./clear.sh
 
+mkdir src
 cd src
 git init
 git config user.name "red"
