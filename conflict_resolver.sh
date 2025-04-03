@@ -22,3 +22,4 @@ if git diff --cached --quiet; then
 fi
 
 git commit --author="$NAME" -m "$COMMIT_MESSAGE"
+
