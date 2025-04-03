@@ -1,4 +1,7 @@
-source git_utils.sh
+TYPE=$1
+
+# shellcheck disable=SC1090
+source utils/"${TYPE}"_utils.sh
 
 clear_func
 
@@ -46,8 +49,8 @@ commit_func "r12" "blue" "br1" false
 # br13 r13
 commit_func "r13" "blue" "br13" true
 
-# master r14
-commit_func "r14" "red" "master" false
+# br0 r14
+commit_func "r14" "red" "br0" false
 
 # br15 r15
 commit_func "r15" "red" "br15" true
@@ -76,8 +79,8 @@ commit_func "r22" "blue" "br8" false
 # br11 r23
 commit_func "r23" "blue" "br11" false
 
-# master r24
-commit_func "r24" "red" "master" false
+# br0 r24
+commit_func "r24" "red" "br0" false
 
 # br17 r25
 commit_func "r25" "red" "br17" false
@@ -203,11 +206,11 @@ commit_func "r64" "blue" "br9" false
 # br9 -> br6
 merge_func "br6" "br9" "red" "r65"
 
-# br6 -> master
-merge_func "master" "br6" "red" "r66"
+# br6 -> br0
+merge_func "br0" "br6" "red" "r66"
 
-# master r67
-commit_func "r67" "red" "master" false
+# br0 r67
+commit_func "r67" "red" "br0" false
 
 # br11 r68
 commit_func "r68" "blue" "br11" false
@@ -215,5 +218,5 @@ commit_func "r68" "blue" "br11" false
 # br11 -> br17
 merge_func "br17" "br11" "red" "r69"
 
-# br17 -> master
-merge_func "master" "br17" "red" "r70"
+# br17 -> br0
+merge_func "br0" "br17" "red" "r70"

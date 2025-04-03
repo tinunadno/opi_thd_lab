@@ -1,7 +1,33 @@
 clear_func(){
   rm -rf src/*
   rm -rf src/.git
+  rm -rf src/.svn
   rm -r src
+}
+
+conflict_resolver_func(){
+  local ZIP_FILE=$1
+  local COMMIT_MESSAGE=$2
+  local NAME=$3
+
+  conflict_files=$(git diff --name-only --diff-filter=U)
+
+  if [ -z "$conflict_files" ]; then
+      return 0
+  fi
+
+  for file in $conflict_files; do
+    unzip -o "$ZIP_FILE" "$file"
+    git add "$file"
+  done
+
+  if git diff --cached --quiet; then
+      echo "no files for commit"
+      return 1
+  fi
+
+  git commit --author="$NAME" -m "$COMMIT_MESSAGE"
+
 }
 
 commit_func(){
@@ -31,9 +57,8 @@ merge_func(){
 
   git checkout "${br_to}"
 
-  # merge br17 br11
   git merge "${br_from}" -m "merged ${br_from} to ${br_to}"
-  ../conflict_resolver.sh ../story/commit"${number}".zip "${name}" "${author} <${author}@poop.us>"
+  conflict_resolver_func "../story/commit""${number}"".zip" "${name}" "${author} <${author}@poop.us>"
 }
 
 init_func(){
@@ -41,7 +66,10 @@ init_func(){
   git config user.name "red"
   git config user.email "red@poop.us"
 
+  git checkout -b br0
+
   unzip -o ../story/commit0.zip -d ./
   git add .
   git commit --allow-empty -m "r0"
 }
+
