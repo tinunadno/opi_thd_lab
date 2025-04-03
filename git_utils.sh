@@ -36,7 +36,7 @@ merge_func(){
   ../conflict_resolver.sh ../story/commit"${number}".zip "${name}" "${author} <${author}@poop.us>"
 }
 
-git_init_func(){
+init_func(){
   git init
   git config user.name "red"
   git config user.email "red@poop.us"

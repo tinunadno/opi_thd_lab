@@ -5,7 +5,7 @@ clear_func
 mkdir src
 cd src
 
-git_init_func
+init_func
 
 # br1 r1
 commit_func "r1" "blue" "br1" true
