@@ -65,11 +65,5 @@ init_func(){
   git init
   git config user.name "red"
   git config user.email "red@poop.us"
-
-  git checkout -b br0
-
-  unzip -o ../story/commit0.zip -d ./
-  git add .
-  git commit --allow-empty -m "r0"
 }
 

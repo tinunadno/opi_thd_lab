@@ -10,6 +10,9 @@ cd src
 
 init_func
 
+# br0 r0
+commit_func "r0" "red" "br0" true
+
 # br1 r1
 commit_func "r1" "blue" "br1" true
 
