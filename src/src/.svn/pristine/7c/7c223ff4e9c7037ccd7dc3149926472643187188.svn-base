@@ -1,0 +1,10 @@
+public class C extends null {
+
+    double ad();
+
+    float ff();
+
+    public void bb() {
+        System.out.println(getClass().getName());
+    }
+}

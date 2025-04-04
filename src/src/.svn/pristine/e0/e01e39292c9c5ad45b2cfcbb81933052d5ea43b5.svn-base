@@ -1,0 +1,10 @@
+public class J extends null {
+
+    long dd();
+
+    void ab();
+
+    public int af() {
+        return -1;
+    }
+}
