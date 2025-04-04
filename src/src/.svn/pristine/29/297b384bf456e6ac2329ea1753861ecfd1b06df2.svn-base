@@ -1,0 +1,14 @@
+public class J extends null {
+
+    long dd();
+
+    void ab();
+
+    public Object rr() {
+        return null;
+    }
+
+    public java.lang.Class qq() {
+        return getClass();
+    }
+}

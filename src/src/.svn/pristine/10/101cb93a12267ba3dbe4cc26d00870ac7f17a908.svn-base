@@ -1,0 +1,10 @@
+public class C extends null {
+
+    double ad();
+
+    float ff();
+
+    public int ae() {
+        return java.lang.Math.abs(-6);
+    }
+}
