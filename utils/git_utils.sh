@@ -13,11 +13,12 @@ conflict_resolver_func(){
   conflict_files=$(git diff --name-only --diff-filter=U)
 
   if [ -z "$conflict_files" ]; then
+      git commit --author="$NAME" -m "$COMMIT_MESSAGE"
       return 0
   fi
 
   for file in $conflict_files; do
-    unzip -o "$ZIP_FILE" "$file"
+    git checkout --their $file
     git add "$file"
   done
 
@@ -57,8 +58,14 @@ merge_func(){
 
   git checkout "${br_to}"
 
-  git merge "${br_from}" -m "merged ${br_from} to ${br_to}"
+
+  git merge --no-commit "${br_from}" -m "merged ${br_from} to ${br_to}"
   conflict_resolver_func "../story/commit""${number}"".zip" "${name}" "${author} <${author}@poop.us>"
+
+  rm *
+  unzip -o ../story/commit"${number}".zip -d ./
+  git add .
+  git commit --allow-empty --author="${author} <${author}@poop.us>" -m "$name"
 }
 
 init_func(){
