@@ -70,7 +70,7 @@ commit_func "r18" "red" "br15" false
 # br4 r19
 commit_func "r19" "blue" "br4" false
 
-# br4 -> br1
+# br4 -> br1 r20
 merge_func "br1" "br4" "red" "r20"
 
 # br9 r21
@@ -94,7 +94,7 @@ commit_func "r26" "blue" "br8" false
 # br27 r27
 commit_func "r27" "blue" "br27" true
 
-# br27 -> br15
+# br27 -> br15 r28
 merge_func "br15" "br27" "red" "r28"
 
 # br15 r29
@@ -130,7 +130,7 @@ commit_func "r38" "red" "br15" false
 # br5 r39
 commit_func "r39" "red" "br5" false
 
-# br5 -> br1
+# br5 -> br1 r40
 merge_func "br1" "br5" "blue" "r40"
 
 # br3 r41
@@ -145,12 +145,11 @@ commit_func "r43" "blue" "br11" false
 # br2 r44
 commit_func "r44" "blue" "br2" false
 
-# br2 -> br13
+# br2 -> br13 r45
 merge_func "br13" "br2" "blue" "r45"
 
 # br13 r46
 commit_func "r46" "blue" "br13" false
-
 
 # br1 r47
 commit_func "r47" "blue" "br1" false
@@ -164,7 +163,7 @@ commit_func "r49" "red" "br17" false
 # br8 r50
 commit_func "r50" "blue" "br8" false
 
-# br8 -> br15
+# br8 -> br15 r51
 merge_func "br15" "br8" "red" "r51"
 
 # br32 r52
@@ -179,25 +178,25 @@ commit_func "r54" "red" "br15" false
 # br13 r55
 commit_func "r55" "blue" "br13" false
 
-# br13 -> br17
+# br13 -> br17 r56
 merge_func "br17" "br13" "red" "r56"
 
 # br1 r57
 commit_func "r57" "blue" "br1" false
 
-# br1 -> br17
+# br1 -> br17 r58
 merge_func "br17" "br1" "red" "r58"
 
 # br3 r59
 commit_func "r59" "blue" "br3" false
 
-# br3 -> br15
+# br3 -> br15 r60
 merge_func "br15" "br3" "red" "r60"
 
-# br15 -> br32
+# br15 -> br32 r61
 merge_func "br32" "br15" "red" "r61"
 
-# br32 -> br17
+# br32 -> br17 r62
 merge_func "br17" "br32" "red" "r62"
 
 # br17 r63
@@ -206,10 +205,10 @@ commit_func "r63" "red" "br17" false
 # br9 r64
 commit_func "r64" "blue" "br9" false
 
-# br9 -> br6
+# br9 -> br6 r65
 merge_func "br6" "br9" "red" "r65"
 
-# br6 -> br0
+# br6 -> br0 r66
 merge_func "br0" "br6" "red" "r66"
 
 # br0 r67
@@ -218,8 +217,8 @@ commit_func "r67" "red" "br0" false
 # br11 r68
 commit_func "r68" "blue" "br11" false
 
-# br11 -> br17
+# br11 -> br17 r69
 merge_func "br17" "br11" "red" "r69"
 
-# br17 -> br0
+# br17 -> br0 r70
 merge_func "br0" "br17" "red" "r70"

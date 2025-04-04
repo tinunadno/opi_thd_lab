@@ -1,29 +1,14 @@
 clear_func(){
   rm -rf src/*
-  rm -rf src/.svn
   rm -rf src/.git
-  rm -rf src
+  rm -rf src/.svn
+  rm -r src
 }
 
 conflict_resolver_func(){
-  local ZIP_FILE=$1
   local COMMIT_MESSAGE=$2
-  local NAME="$3"
+  local NAME=$3
 
-  conflict_files=$(svn status | grep '^C' | awk '{print $2}')
-
-  if [ -z "$conflict_files" ]; then
-      echo "Нет конфликтов"
-      return 0
-  fi
-
-  for file in $conflict_files; do
-    unzip -o "$ZIP_FILE" "$file" -d ./
-    svn resolve --accept=working "$file"
-    svn add "$file" 2>/dev/null
-  done
-
-  svn commit --username "$(echo "$NAME" | cut -d' ' -f1)" -m "$COMMIT_MESSAGE"
 }
 
 commit_func(){
@@ -34,19 +19,15 @@ commit_func(){
   local is_new_br=$4
 
   if [ "$is_new_br" == true ]; then
-
-    svn copy ^/r0 ^/branches/"$br" -m "Создана ветка $br"
+    svn copy ^/trunk ^/branches/"${br}" -m "Creating branch ${br}"
   fi
 
-  svn switch ^/branches/"$br"
+  svn switch ^/branches/"${br}"
 
-  rm -rf ./*
-  unzip -o "../story/commit${number}.zip" -d ./
-  svn add --force . 2>/dev/null
-  # shellcheck disable=SC2046
-  svn delete $(svn status | grep '^!' | awk '{print $2}') 2>/dev/null
-
-  svn commit --username "$author" -m "$name"
+  rm -rf *
+  unzip -o ../../story/commit"${number}".zip -d ./
+  svn add --force .
+  svn commit --username "${author}" -m "$name"
 }
 
 merge_func(){
@@ -56,21 +37,12 @@ merge_func(){
   local name=$4
   local number="${name//[^0-9]/}"
 
-  svn switch ^/branches/"$br_to"
-
-  svn merge ^/branches/"$br_from" --accept=postpone
-
-  conflict_resolver_func "../story/commit${number}.zip" "$name" "$author <${author}@poop.us>"
+  ## вот тут магия должна происходить какая я не понимаю
 }
 
 init_func(){
-  svnadmin create .svn
-  svn checkout "file://$(pwd)/.svn" .svn
-
-  svn mkdir r0 branches tags -m "Структура репозитория"
-  svn checkout "file://$(pwd)/.svn/br0" .
-
-  unzip -o ../story/commit0.zip -d ./
-  svn add --force .
-  svn commit --username "red" -m "r0"
+  svnadmin create repo
+  svn mkdir file://$(pwd)/repo/trunk file://$(pwd)/repo/branches file://$(pwd)/repo/tags -m "Initial structure"
+  svn checkout file://$(pwd)/repo/trunk src
+  cd src
 }

@@ -6,7 +6,6 @@ clear_func(){
 }
 
 conflict_resolver_func(){
-  local ZIP_FILE=$1
   local COMMIT_MESSAGE=$2
   local NAME=$3
 
@@ -64,7 +63,7 @@ merge_func(){
   git commit --allow-empty --author="${author} <${author}@poop.us>" -m "$name"
 
   git merge --no-commit "${br_from}" -m "merged ${br_from} to ${br_to}"
-  conflict_resolver_func "../story/commit""${number}"".zip" "${name}" "${author} <${author}@poop.us>"
+  conflict_resolver_func "${name}" "${author} <${author}@poop.us>"
 }
 
 init_func(){
