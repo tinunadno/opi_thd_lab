@@ -5,10 +5,27 @@ clear_func(){
   rm -r src
 }
 
-conflict_resolver_func(){
-  local COMMIT_MESSAGE=$2
-  local NAME=$3
+svn_merge_resolver() {
+  local COMMIT_MESSAGE=$1
+  local USERNAME=$2
 
+  conflict_files=$(svn status | grep '^C' | awk '{print $2}')
+
+  if [ -z "$conflict_files" ]; then
+    svn commit -m "$COMMIT_MESSAGE" --username "$USERNAME"
+    return 0
+  fi
+
+  for file in $conflict_files; do
+    svn resolve --accept theirs-full "$file"
+  done
+
+  if svn status | grep -q '^[ADM]'; then
+    svn commit -m "$COMMIT_MESSAGE" --username "$USERNAME"
+  else
+    echo "No changes to commit"
+    return 1
+  fi
 }
 
 commit_func(){
@@ -35,9 +52,18 @@ merge_func(){
   local br_from=$2
   local author=$3
   local name=$4
-  local number="${name//[^0-9]/}"
 
-  ## вот тут магия должна происходить какая я не понимаю
+  svn switch "^/branches/${br_to}" --force
+  commit_func name, author, br_to, false
+  svn update
+
+  svn merge "^/branches/${br_from}" --accept theirs-full --non-interactive
+
+  svn resolve --accept theirs-full --recursive . --non-interactive
+
+  svn add --force . --auto-props --parents --depth infinity -q
+
+  svn commit --username "${author}" -m "${name}" --no-auth-cache --non-interactive
 }
 
 init_func(){
