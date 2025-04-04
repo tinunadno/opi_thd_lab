@@ -1,0 +1,6 @@
+public interface G {
+
+    void aa();
+
+    int cc();
+}
