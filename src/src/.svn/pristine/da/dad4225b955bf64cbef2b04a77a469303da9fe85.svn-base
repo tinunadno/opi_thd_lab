@@ -1,0 +1,18 @@
+public class G extends null {
+
+    void aa();
+
+    int cc();
+
+    public int hh() {
+        return new java.util.Random().nextInt();
+    }
+
+    public int[] ii() {
+        return new int[]{0, 1, 2, 3, 4};
+    }
+
+    public java.util.Random mm() {
+        return new java.util.Random();
+    }
+}
