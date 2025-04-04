@@ -58,14 +58,13 @@ merge_func(){
 
   git checkout "${br_to}"
 
-
-  git merge --no-commit "${br_from}" -m "merged ${br_from} to ${br_to}"
-  conflict_resolver_func "../story/commit""${number}"".zip" "${name}" "${author} <${author}@poop.us>"
-
   rm *
   unzip -o ../story/commit"${number}".zip -d ./
   git add .
   git commit --allow-empty --author="${author} <${author}@poop.us>" -m "$name"
+
+  git merge --no-commit "${br_from}" -m "merged ${br_from} to ${br_to}"
+  conflict_resolver_func "../story/commit""${number}"".zip" "${name}" "${author} <${author}@poop.us>"
 }
 
 init_func(){
