@@ -1,0 +1,10 @@
+public class G extends null {
+
+    void aa();
+
+    int cc();
+
+    public String kk() {
+        return "No";
+    }
+}
