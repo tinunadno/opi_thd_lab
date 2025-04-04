@@ -1,0 +1,18 @@
+public class C extends null {
+
+    double ad();
+
+    float ff();
+
+    public Object rr() {
+        return null;
+    }
+
+    public long ac() {
+        return 111;
+    }
+
+    public long dd() {
+        return 100500;
+    }
+}

@@ -1,0 +1,14 @@
+public class J extends null {
+
+    long dd();
+
+    void ab();
+
+    public byte oo() {
+        return 4;
+    }
+
+    public double ad() {
+        return 12.12;
+    }
+}
