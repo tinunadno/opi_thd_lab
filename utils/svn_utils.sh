@@ -5,29 +5,6 @@ clear_func(){
   rm -r src
 }
 
-svn_merge_resolver() {
-  local COMMIT_MESSAGE=$1
-  local USERNAME=$2
-
-  conflict_files=$(svn status | grep '^C' | awk '{print $2}')
-
-  if [ -z "$conflict_files" ]; then
-    svn commit -m "$COMMIT_MESSAGE" --username "$USERNAME"
-    return 0
-  fi
-
-  for file in $conflict_files; do
-    svn resolve --accept theirs-full "$file"
-  done
-
-  if svn status | grep -q '^[ADM]'; then
-    svn commit -m "$COMMIT_MESSAGE" --username "$USERNAME"
-  else
-    echo "No changes to commit"
-    return 1
-  fi
-}
-
 commit_func(){
   local name=$1
   local number="${name//[^0-9]/}"
@@ -48,20 +25,29 @@ commit_func(){
 }
 
 merge_func(){
-  local br_to=$1
-  local br_from=$2
-  local author=$3
-  local name=$4
 
   svn switch "^/branches/${br_to}" --force
-  commit_func name, author, br_to, false
+  commit_func "$name" "$author" "$br_to" false
+
   svn update
 
-  svn merge "^/branches/${br_from}" --accept theirs-full --non-interactive
+  svn merge "^/branches/${br_from}" --accept theirs-full --non-interactive || {
 
-  svn resolve --accept theirs-full --recursive . --non-interactive
+  echo "Merge completed with potential conflicts, scanning..."
+
+  conflicted_files=$(svn status | grep '^C' | awk '{print $2}')
+
+  for file in $conflicted_files; do
+      echo "Conflict in $file - removing local version and restoring from br_from"
+      svn delete "$file" --force
+      svn cat "^/branches/${br_from}/$file" > "$file"
+      svn add "$file"
+    done
+  }
 
   svn add --force . --auto-props --parents --depth infinity -q
+
+  svn resolve --accept theirs-full --recursive . --non-interactive
 
   svn commit --username "${author}" -m "${name}" --no-auth-cache --non-interactive
 }
