@@ -43,6 +43,7 @@ merge_func(){
       svn cat "^/branches/${br_from}/$file" > "$file"
       svn add "$file"
     done
+
   }
 
   svn add --force . --auto-props --parents --depth infinity -q
