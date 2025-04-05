@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /home/yura/Applications/clion/clionProjects/OPI_second_lab Select CMakeLists.txt
