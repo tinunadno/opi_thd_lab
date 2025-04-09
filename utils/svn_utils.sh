@@ -25,33 +25,31 @@ commit_func(){
 }
 
 merge_func(){
+  local br_to=$1
+  local br_from=$2
+  local author=$3
+  local name=$4
+  local number="${name//[^0-9]/}"
 
-  svn switch "^/branches/${br_to}" --force
-  commit_func "$name" "$author" "$br_to" false
+  svn switch "^/branches/${br_to}"
 
-  svn update
+  # Сначала делаем коммит с новыми изменениями
+  rm -rf *
+  unzip -o ../../story/commit"${number}".zip -d ./
+  svn add --force .
+  svn commit --username "${author}" -m "$name"
 
-  svn merge "^/branches/${br_from}" --accept theirs-full --non-interactive || {
+  # Выполняем merge с автоматическим разрешением конфликтов в пользу их версии (аналог --their в git)
+  svn merge "^/branches/${br_from}" --accept theirs-full --non-interactive
 
-  echo "Merge completed with potential conflicts, scanning..."
-
-  conflicted_files=$(svn status | grep '^C' | awk '{print $2}')
-
-  for file in $conflicted_files; do
-      echo "Conflict in $file - removing local version and restoring from br_from"
-      svn delete "$file" --force
-      svn cat "^/branches/${br_from}/$file" > "$file"
-      svn add "$file"
-    done
-
-
-  }
-
-  svn add --force . --auto-props --parents --depth infinity -q
-
+  # Принудительно разрешаем все возможные конфликты
   svn resolve --accept theirs-full --recursive . --non-interactive
 
-  svn commit --username "${author}" -m "${name}" --no-auth-cache --non-interactive
+  # Добавляем все файлы, включая новые
+  svn add --force . 2>/dev/null || true
+
+  # Коммитим результат слияния
+  svn commit --username "${author}" -m "merged ${br_from} to ${br_to}"
 }
 
 init_func(){

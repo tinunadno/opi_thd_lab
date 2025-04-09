@@ -208,17 +208,17 @@ commit_func "r64" "blue" "br9" false
 # br9 -> br6 r65
 merge_func "br6" "br9" "red" "r65"
 
-# br6 -> br0 r66
-merge_func "br0" "br6" "red" "r66"
-
-# br0 r67
-commit_func "r67" "red" "br0" false
-
-# br11 r68
-commit_func "r68" "blue" "br11" false
-
-# br11 -> br17 r69
-merge_func "br17" "br11" "red" "r69"
-
-# br17 -> br0 r70
-merge_func "br0" "br17" "red" "r70"
+## br6 -> br0 r66
+#merge_func "br0" "br6" "red" "r66"
+#
+## br0 r67
+#commit_func "r67" "red" "br0" false
+#
+## br11 r68
+#commit_func "r68" "blue" "br11" false
+#
+## br11 -> br17 r69
+#merge_func "br17" "br11" "red" "r69"
+#
+## br17 -> br0 r70
+#merge_func "br0" "br17" "red" "r70"
