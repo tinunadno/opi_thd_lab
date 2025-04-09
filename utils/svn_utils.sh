@@ -33,22 +33,17 @@ merge_func(){
 
   svn switch "^/branches/${br_to}"
 
-  # Сначала делаем коммит с новыми изменениями
   rm -rf *
   unzip -o ../../story/commit"${number}".zip -d ./
   svn add --force .
   svn commit --username "${author}" -m "$name"
 
-  # Выполняем merge с автоматическим разрешением конфликтов в пользу их версии (аналог --their в git)
   svn merge "^/branches/${br_from}" --accept theirs-full --non-interactive
 
-  # Принудительно разрешаем все возможные конфликты
   svn resolve --accept theirs-full --recursive . --non-interactive
 
-  # Добавляем все файлы, включая новые
   svn add --force . 2>/dev/null || true
 
-  # Коммитим результат слияния
   svn commit --username "${author}" -m "merged ${br_from} to ${br_to}"
 }
 

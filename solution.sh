@@ -205,9 +205,9 @@ commit_func "r63" "red" "br17" false
 # br9 r64
 commit_func "r64" "blue" "br9" false
 
-# br9 -> br6 r65
-merge_func "br6" "br9" "red" "r65"
-
+## br9 -> br6 r65
+#merge_func "br6" "br9" "red" "r65"
+#
 ## br6 -> br0 r66
 #merge_func "br0" "br6" "red" "r66"
 #
