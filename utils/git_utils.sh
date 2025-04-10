@@ -19,7 +19,7 @@ commit_func(){
     git checkout "${br}"
   fi
 
-  rm -rf -- * .[!.]* ..?* 2>/dev/null || true
+  find . -mindepth 1 \( ! -path "./.git/*" ! -name ".git" \) -delete
 
   if [ -s "$archive" ]; then
     unzip -o "$archive" -d ./
@@ -47,7 +47,7 @@ merge_func(){
 
   git checkout "${br_to}"
 
-  rm -rf -- * .[!.]* ..?* 2>/dev/null || true
+  find . -mindepth 1 \( ! -path "./.git/*" ! -name ".git" \) -delete
 
   if [ -s "$archive" ]; then
     unzip -o "$archive" -d ./
