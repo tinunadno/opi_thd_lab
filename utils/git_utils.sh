@@ -37,34 +37,23 @@ commit_func(){
   git commit --allow-empty --author="${author} <${author}@poop.us>" -m "$name"
 }
 
-merge_func(){
+merge_func() {
   local br_to=$1
   local br_from=$2
   local author=$3
   local name=$4
-  local number="${name//[^0-9]/}"
-  local archive="../story/commit${number}.zip"
 
-  git checkout "${br_to}"
+  git checkout "$br_to" || return 1
 
-  find . -mindepth 1 \( ! -path "./.git/*" ! -name ".git" \) -delete
-
-  if [ -s "$archive" ]; then
-    unzip -o "$archive" -d ./
-  fi
-
-  git add .
-
-  git merge --no-commit "${br_from}" -m "merged ${br_from} to ${br_to}"
-
-  if git diff --name-only --diff-filter=U | grep -q .; then
-    for file in $(git diff --name-only --diff-filter=U); do
+  if git merge --no-commit "$br_from"; then
+    git commit --author="${author} <${author}@poop.us>" -m "$name"
+  else
+    git diff --name-only --diff-filter=U | while read -r file; do
       git checkout --theirs "$file"
       git add "$file"
     done
+    git commit --author="${author} <${author}@poop.us>" -m "$name"
   fi
-
-  git commit --allow-empty --author="${author} <${author}@poop.us>" -m "$name"
 }
 
 
