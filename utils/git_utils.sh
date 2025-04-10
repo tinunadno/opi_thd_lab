@@ -54,8 +54,9 @@ merge_func() {
     git commit --author="${author} <${author}@poop.us>" -m "$name"
   else
     git diff --name-only --diff-filter=U | while read -r file; do
-      git checkout --theirs "$file"
-      git add "$file"
+      git checkout --theirs "$file" 2>/dev/null
+      git add "$file" 2>/dev/null
+      echo "conflicta reaolved for $file"
     done
     git commit --author="${author} <${author}@poop.us>" -m "$name"
   fi
