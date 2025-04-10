@@ -42,8 +42,13 @@ merge_func() {
   local br_from=$2
   local author=$3
   local name=$4
+  commit_func $name $author $br_from false
 
   git checkout "$br_to" || return 1
+
+  find . -mindepth 1 \( ! -path "./.git/*" ! -name ".git" \) -delete
+
+
 
   if git merge --no-commit "$br_from"; then
     git commit --author="${author} <${author}@poop.us>" -m "$name"
